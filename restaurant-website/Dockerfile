@@ -29,18 +29,21 @@ RUN composer install --no-scripts
 # Copy the rest of the application files
 COPY . .
 
+#ASSET MAP et CACHE PHP
+
 # Run Composer dump-autoload to generate the autoloader
 RUN composer dump-autoload --optimize
 
 # Set permissions for log file and directory
-RUN touch /var/www/html/var/log/dev.log \
-    && chown www-data:www-data /var/www/html/var/log/dev.log \
-    && chmod 777 /var/www/html/var/log/dev.log
+RUN touch /var/www/html/var/log/dev.log
 
 # Set permissions for asset_mapper directory
-RUN mkdir -p /var/www/html/var/cache/dev/asset_mapper \
-    && chown -R www-data:www-data /var/www/html/var/cache/dev/asset_mapper \
-    && chmod -R 777 /var/www/html/var/cache/dev/asset_mapper
+RUN mkdir -p /var/www/html/var/cache/dev/asset_mapper
+
+RUN chown -R www-data:www-data *
+
+#RUN chmod -R 777 *
+
 
 # Expose the port for production
 EXPOSE 8000
