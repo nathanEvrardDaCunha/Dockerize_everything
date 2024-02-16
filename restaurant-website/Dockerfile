@@ -4,6 +4,9 @@ FROM php:8.3-fpm
 # Set the working directory in the container
 WORKDIR /var/www/html
 
+# Copy all files to the container
+COPY . .
+
 # Install dependencies and configure PHP extensions
 RUN apt-get update \
     && apt-get install -y libpng-dev libicu-dev zip unzip \
@@ -23,16 +26,9 @@ ENV PATH="/usr/local/bin/symfony:${PATH}"
 # Copy only the necessary files for Composer install
 COPY composer.json composer.lock ./
 
-# Install Composer dependencies
-RUN composer install --no-scripts
-
-# Copy the rest of the application files
-COPY . .
-
-#ASSET MAP et CACHE PHP
-
-# Run Composer dump-autoload to generate the autoloader
-RUN composer dump-autoload --optimize
+# Set ownership for Composer cache directory
+RUN mkdir -p /var/www/.composer/cache/files && \
+    chown -R www-data:www-data /var/www/.composer
 
 # Set permissions for log file and directory
 RUN touch /var/www/html/var/log/dev.log
@@ -40,10 +36,18 @@ RUN touch /var/www/html/var/log/dev.log
 # Set permissions for asset_mapper directory
 RUN mkdir -p /var/www/html/var/cache/dev/asset_mapper
 
+# Set ownership for all directory to www-data user
 RUN chown -R www-data:www-data *
 
-#RUN chmod -R 777 *
+# Install Composer dependencies
+USER www-data
+RUN composer install --no-dev --optimize-autoloader
 
+# Switch back to the root user
+USER root
+
+# Run Composer dump-autoload to generate the autoloader
+RUN composer dump-autoload --optimize
 
 # Expose the port for production
 EXPOSE 8000
