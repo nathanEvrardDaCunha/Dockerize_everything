@@ -56,4 +56,4 @@ RUN composer dump-autoload
 EXPOSE 8000
 
 # Start PHP-FPM when the container runs
-CMD ["symfony", "server:start", "--port=8000", "--allow-http", "--no-tls", "--dir=/var/www/html"]
+CMD ["php-fpm"]
