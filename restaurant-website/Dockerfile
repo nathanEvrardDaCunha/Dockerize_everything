@@ -43,11 +43,14 @@ RUN chown -R www-data:www-data *
 USER www-data
 RUN composer install --no-dev --optimize-autoloader
 
+# Run Composer update to potentially get the latest versions
+RUN composer update
+
 # Switch back to the root user
 USER root
 
 # Run Composer dump-autoload to generate the autoloader
-RUN composer dump-autoload --optimize
+RUN composer dump-autoload
 
 # Expose the port for production
 EXPOSE 8000
