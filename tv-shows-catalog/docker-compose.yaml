@@ -1,2 +1,16 @@
-# Définir cette configuration Compose afin de lancer l'application
-# Make Me Watch en production.
+version: "3.9"
+services: 
+  server:
+    container_name: tv-shows-server
+    build: server/.
+    ports:
+     - "3000:3000"
+
+  client:
+    container_name: tv-shows-client
+    build: client/.
+    ports:
+     - "5173:5173"
+     - "4173:4173"
+    depends_on:
+     - server
