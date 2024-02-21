@@ -1,1 +1,12 @@
-# Créer un Dockerfile pour cette application en mode production
+FROM node:16
+
+WORKDIR /server
+
+COPY . .
+
+RUN npm install
+
+EXPOSE 3000
+
+
+
