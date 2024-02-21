@@ -1,16 +1,20 @@
 version: "3.9"
 services: 
-  server:
-    container_name: tv-shows-server
+  server-prod:
+    container_name: tv-shows-server-prod
+    command: ["sh", "-c", "npm run build && npm run start:prod"]
     build: server/.
     ports:
      - "3000:3000"
 
-  client:
-    container_name: tv-shows-client
+
+  client-prod:
+    container_name: tv-shows-client-prod
     build: client/.
+    command: ["sh", "-c", "npm run build && node build/index.js"]
+    environment:
+      - API_BASE_URL=http://tv-shows-server-prod:3000
     ports:
-     - "5173:5173"
-     - "4173:4173"
+     - "3173:3000"
     depends_on:
-     - server
+     - server-prod

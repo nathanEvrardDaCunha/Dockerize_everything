@@ -4,10 +4,7 @@ WORKDIR /client
 
 COPY . .
 
-COPY .env.example .env
-
 RUN npm install
 
-EXPOSE 5173
+EXPOSE 4173 5173 3000
 
-CMD ["npm", "run", "dev"]
