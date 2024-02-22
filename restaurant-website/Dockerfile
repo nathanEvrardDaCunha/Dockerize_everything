@@ -23,8 +23,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN composer install --no-dev --optimize-autoloader && composer clear-cache
 
-# TODO: Improve ownership management
-RUN chmod -R 777 var public
+RUN chmod -R 755 var public && \
+    chown -R www-data:www-data var public
 
 # Switch back to the root user //
 USER www-data:www-data
