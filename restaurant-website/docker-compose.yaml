@@ -13,7 +13,7 @@ services:
       - restaurant-network
 
   nginx:
-    image: nginx:latest
+    image: nginx:stable-alpine
     ports:
       - "8000:80"
     volumes:
