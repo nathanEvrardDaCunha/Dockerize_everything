@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  php-fpm:
+  php:
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,9 +18,9 @@ services:
       - "8000:80"
     volumes:
       - .:/var/www/html
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/grilli.com.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - php-fpm
+      - php
     networks:
       - restaurant-network
 
