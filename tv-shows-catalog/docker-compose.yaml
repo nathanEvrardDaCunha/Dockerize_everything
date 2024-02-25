@@ -4,14 +4,13 @@ services:
     container_name: tv-shows-server-prod
     build: server/.
     ports:
-     - "3000:3000"
+     - "${SERVER_PROD_LOCAL_PORT}:${SERVER_PROD_PORT}"
 
 
   client-prod:
     container_name: tv-shows-client-prod
-    build:
-      context: client/.
+    build: client/.
     ports:
-      - "3100:3000"
+      - "${CLIENT_PROD_LOCAL_PORT}:${CLIENT_PROD_PORT}"
     depends_on:
      - server-prod
